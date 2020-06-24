@@ -1,3 +1,23 @@
+//creating a function that will create a random number for alien ship's properties that come from a range
+const randomizer = (min, max) => {
+  //if my min and max are less than zero don't floor or ceil just return as is
+  if (min < 1 && max < 1) {
+    return (Math.random() * (max - min) + min).toFixed(1);
+  } else {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+}
+
+let alienHull = randomizer(3,6);
+//randomly generated range between 3 and 6
+let alienFP = randomizer(2,4)
+//randomly generated range between 2 n 4
+let alienACC = randomizer(0.6, 0.8)
+//randomly generated range between .6 n .8
+
+
 //*Ship object constructor
 
 class Ship {
@@ -16,25 +36,19 @@ class Ship {
 
 const ussSchwarzenegger = new Ship(20, 5, 0.7)
 
-const alienShip = new Ship(4, 4, 0.6) //hard coded for now
+const alienShip = new Ship(alienHull, alienFP, alienACC) 
 
-//checking if player ship us actually being made
 
-console.log(ussSchwarzenegger)
-console.log(alienShip)
-
-//checking if they have access to method attak
-ussSchwarzenegger.attack()
-alienShip.attack()
 
 //Initializing values on game start and restart
 // let ussSchwarzenegger.hull = 20
 // let ussSchwarzenegger.firepower = 5
 // let ussSchwarzenegger.accuracy = o.7
 //
-// let alienShip.hull = randomly generated range between 3 and 6
-// let alienShip.firepower = randomly generated range between 2 n 4
-// let alienShip.accuracy = randomly generated range between .6 n .8
+
+//checking randomized values:
+
+console.log(alienShip)
 
 
 
