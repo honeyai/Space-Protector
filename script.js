@@ -38,25 +38,18 @@ const ussSchwarzenegger = new Ship(20, 5, 0.7)
 
 const alienShip = new Ship(alienHull, alienFP, alienACC) 
 
+//adding the retreat to out player ship
+ussSchwarzenegger.retreat = function (){
+  console.log("I am retreating!")
+  //verify if you want to retreat.
+  //if yes => game over thanks for playing
+  //if no => continue on with the game state. 
+}
 
+//calling retreat
+ussSchwarzenegger.retreat()
 
 //Initializing values on game start and restart
 // let ussSchwarzenegger.hull = 20
 // let ussSchwarzenegger.firepower = 5
 // let ussSchwarzenegger.accuracy = o.7
-//
-
-//checking randomized values:
-
-console.log(alienShip)
-
-
-
-
-
-//! For the player ship
-// retreat() {
-  //verify if you want to retreat.
-  //if yes => game over thanks for playing
-  //if no => continue on with the game state. 
-// }
