@@ -1,3 +1,5 @@
+//* -------------------------------------------------------------Functions and variables
+
 //creating a function that will create a random number for alien ship's properties that come from a range
 const randomizer = (min, max) => {
   //if my min and max are less than zero don't floor or ceil just return as is
@@ -20,14 +22,12 @@ let alienACC = randomizer(0.6, 0.8)
 //index to hold alien Ship names
 let index;
 
-
-
 let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"]
 
 let getAlienName = () => index = Math.floor(Math.random()*alienShipNames.length);
 
 
-//*Ship object constructor
+//*---------------------------------------------------------------Ship object constructor
 
 class Ship {
     constructor(name, hull, firepower, accuracy){ // might not need to feed these parameters
@@ -38,50 +38,56 @@ class Ship {
   }
   //Adding in only the attack method because only the player will have an option to retreat
   attack(attacked, attacker){
-
     console.log(`You attack the ${alienShip.name}!`)
+    if(alienShip.hull > 0){
+    console.log(`this is the index at 43:`, index)
+    }
 
     //create random number for attack between 0 and 1
     let hitChance = Math.random();
     (hitChance).toFixed(1);
+
     //if hitChance is less than accuracy = miss
     if(hitChance < this.accuracy){
       console.log(`${attacker.name}'s attack misses!`)
-      //keep attacking the current enemy ship
-      // let currentShipIndex = index;
-
     } else {
       let damage = attacker.firepower;
       console.log(`${attacked.name} takes a hit. Hull takes ${damage} damage.`);
 
-      console.log(`these are the remaining ships`,alienShipNames)
-      console.log(`this is the enemy ship:`,attacked.name)
-
       //if the damage is more or equal to the hull then alien ship is destroyed and a new one is made.
       if (damage >= attacked.hull){
+        console.log(`this is the hull of the alien ship:`,attacked.hull)
         console.log(`${attacked.name}'s hull shatters.`)
         console.log("The fleet deploys a new ship to attack you!")
         //use the same alien ship object but change it's name
         //pop the previously defeated alien Ship
-        alienShipNames.splice(index);
-        console.log(`Updated array`,alienShipNames)
+        console.log(`this is the index at 64:`, index)
+        if(alienShipNames.length === 1){
+          alienShipNames.pop();
+        } else {
+          alienShipNames.splice(index,index);
+          console.log(`Updated array`,alienShipNames)
+          console.log(`this is the index at 70:`, index)
+        }
         alienShip.name = alienShipNames[getAlienName()]
+        console.log(`this is the index:`, index)
         console.log(`${alienShip.name} approaches.`)
       }
     }
   }
 }
 
-//*Generating the Ships
-//I could also assign the player ship to have it's own unique name by story the prompt value into a variable. Test's for strings.
+//*------------------------------------------------------------------Generating the Ships
+
+//I could also assign the player ship to have it's own unique name by storing the prompt value into a variable. Test's for strings.
+
+//let playerName = prompt("jsjsjd", USS Schwarzenegger) blah blah blah
+
 const ussSchwarzenegger = new Ship("USS Schwarzenegger", 20, 5, 0.7)
 
 const alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
 
-
-//I could create an array of alien ship objects that each have a unique name when made...?
-//List of alien ship names
-
+//I could create an array of alien ship objects that each have a unique name when made...
 
 //adding the retreat to out player ship
 ussSchwarzenegger.retreat = function (){
@@ -91,7 +97,10 @@ ussSchwarzenegger.retreat = function (){
   //if no => continue on with the game state. 
 }
 
-ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
+//player attack
+while(alienShipNames.length > 0){
+  ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
+}
 
 //Initializing values on game start and restart
 // let ussSchwarzenegger.hull = 20
@@ -103,3 +112,6 @@ ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
 //maybe loop until names.length === 0
 
 //Getting the game play to the DOM
+
+//! NOTES
+// ! Now what's happening is I get it actually do what I need expect, for when at the end. It's gunna give me an undefined alien. but because technically it works imma commit.
