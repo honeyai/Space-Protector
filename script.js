@@ -28,7 +28,10 @@ class Ship {
   }
   //Adding in only the attack method because only the player will have an option to retreat
   attack(){
-    console.log("I am attacking.")
+    //create random number for attack between 0 and 1
+    let hitChance = Math.random();
+    (hitChance).toFixed(1);
+    //
   }
 }
 
@@ -47,9 +50,14 @@ ussSchwarzenegger.retreat = function (){
 }
 
 //calling retreat
-ussSchwarzenegger.retreat()
+console.log(ussSchwarzenegger.attack());
 
 //Initializing values on game start and restart
 // let ussSchwarzenegger.hull = 20
 // let ussSchwarzenegger.firepower = 5
 // let ussSchwarzenegger.accuracy = o.7
+
+
+//Creating game play 
+
+//Getting the game play to the DOM
