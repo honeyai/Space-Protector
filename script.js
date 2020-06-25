@@ -68,16 +68,21 @@ class Ship {
           alert(`${attacked.name} takes a hit, hull takes ${damage} damage.`)
           alert(`${attacked.name}'s hull shatters!`)
           alert("The fleet deploys a new ship to attack you!")
-          alienShipNames.splice(index,index); //removing the ship you just destroyed
-          console.log(`Updated array`,alienShipNames)
-          console.log(`this is the index at 70:`, index)
-          alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
-          alert(`${alienShip.name} approaches.`)
-          return turnEnds = false;
+          alienShipNames.splice(index,1); //removing the ship you just destroyed
+          //once the length is less thana or equal to 0 stop generating ships
+          if(alienShipNames.length <=0){
+            alert(`As ${attacked.name}'s hull is set ablaze by your laser, you speed through the wreckage. The alien fleet as been defeat!\nYou're heading home...`)
+            gameEnd();
+          } else {
+            alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
+            alert(`${alienShip.name} approaches.`)
+            turnEnds = false;
+          }
         } else if (this.name === alienShipNames[index]){
-          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. The ship's alarms begin to blare. The ship is going down! ${attacked.name} never makes it home. \nGame over.`)
+          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. \nThe ship's alarms begin to blare. The ship is going down! ${attacked.name} never makes it home. \nGame over.`)
           gameEnd();
         }
+        turnEnds = false;
       } else {
         if(this.name === "USS Schwarzenegger"){
           remainingHull = attacked.hull - damage;
@@ -104,9 +109,8 @@ var alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, ali
 let answer;
 let quit;
 const gameStart = () => {
-  alert("You are the USS Schwarzenegger. On your return flight back to Earth you're met with a barricade of alien ships. Defeat them to get home!")
+  alert("You are the USS Schwarzenegger. On your return flight back to Earth, you're met with a barricade of alien ships. \nDefeat them to get home!")
   alert(`${alienShip.name} approaches.`)
-  // answer = prompt(`${ussSchwarzenegger.hull}`);
   answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   gameContinue();
 }
@@ -121,7 +125,7 @@ const gameEnd = () =>{
 
 const gameContinue = () => {
   while (answer === "a" || quit === null){
-    ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);//I should return if the player turn ends to then start the next attack'
+    ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
     if (turnEnds === true){
       alienShip.attack(ussSchwarzenegger, alienShip);
     } else if (turnEnds === false ) {
@@ -149,12 +153,11 @@ gameStart();
 
 
 //!=========================================== NOTES ================================================
-// ! Now what's happening is I get it actually do what I need expect, for when at the end. It's gunna give me an undefined alien. but because technically it works imma commit.
-// ! It is not doing what i wanted. it's not generating different values for alien ship and that's cuz it's not creating a new class.
-// ! Have to make conditionals for different alerts depending on who's attacking
+//!Current errors: playing again after you win does not start with all of the array it starts with the only remaining item of the array.
 
 //*======================================= CURRENT EDITION ==========================================
 //*Committing because the general gist of the game works
+
 
 //TODO After everything works turn if else's into ternarys...maybe
 
