@@ -36,12 +36,9 @@ class Ship {
     this.firepower = firepower,
     this.accuracy = accuracy
   }
-  //Adding in only the attack method because only the player will have an option to retreat
+  
   attack(attacked, attacker){
-    console.log(`You attack the ${alienShip.name}!`)
-    if(alienShip.hull > 0){
-    console.log(`this is the index at 43:`, index)
-    }
+    alert(`You attack the ${alienShip.name}!`)
 
     //create random number for attack between 0 and 1
     let hitChance = Math.random();
@@ -49,29 +46,27 @@ class Ship {
 
     //if hitChance is less than accuracy = miss
     if(hitChance < this.accuracy){
-      console.log(`${attacker.name}'s attack misses!`)
+      alert(`${attacker.name}'s attack misses!`)
     } else {
       let damage = attacker.firepower;
-      console.log(`${attacked.name} takes a hit. Hull takes ${damage} damage.`);
-
+      alert(`${attacked.name} takes a hit. Hull takes ${damage} damage.`);
       //if the damage is more or equal to the hull then alien ship is destroyed and a new one is made.
       if (damage >= attacked.hull){
-        console.log(`this is the hull of the alien ship:`,attacked.hull)
-        console.log(`${attacked.name}'s hull shatters.`)
-        console.log("The fleet deploys a new ship to attack you!")
-        //use the same alien ship object but change it's name
-        //pop the previously defeated alien Ship
-        console.log(`this is the index at 64:`, index)
-        if(alienShipNames.length === 1){
-          alienShipNames.pop();
-        } else {
-          alienShipNames.splice(index,index);
-          console.log(`Updated array`,alienShipNames)
-          console.log(`this is the index at 70:`, index)
-        }
-        alienShip.name = alienShipNames[getAlienName()]
+        
+        alert(`${attacked.name}'s hull shatters!`)
+        alert("The fleet deploys a new ship to attack you!")
+        alienShipNames.splice(index,index);
+        console.log(`Updated array`,alienShipNames)
+        console.log(`this is the index at 70:`, index)
+ //*------------------------------------------------------------------Makes sense up to here     
+        //if the index.name is equal to undefined break?
+        if (alienShipNames[index] === undefined){
+          console.log("end of game")
+        } else { //else "create" a new alien ship with this new name. 
+        alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
         console.log(`this is the index:`, index)
         console.log(`${alienShip.name} approaches.`)
+        }
       }
     }
   }
@@ -85,21 +80,14 @@ class Ship {
 
 const ussSchwarzenegger = new Ship("USS Schwarzenegger", 20, 5, 0.7)
 
-const alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
+let alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
 
 //I could create an array of alien ship objects that each have a unique name when made...
-
-//adding the retreat to out player ship
-ussSchwarzenegger.retreat = function (){
-  console.log("I am retreating!")
-  //verify if you want to retreat.
-  //if yes => game over thanks for playing
-  //if no => continue on with the game state. 
-}
 
 //player attack
 while(alienShipNames.length > 0){
   ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
+  console.log(alienShip)
 }
 
 //Initializing values on game start and restart
@@ -115,3 +103,4 @@ while(alienShipNames.length > 0){
 
 //! NOTES
 // ! Now what's happening is I get it actually do what I need expect, for when at the end. It's gunna give me an undefined alien. but because technically it works imma commit.
+//! It is not doing what i wanted. it's not generating different values for alien ship and that's cuz it's not creating a new computer.
