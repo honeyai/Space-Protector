@@ -34,6 +34,8 @@ let damage;
 
 let remainingHull;
 
+let deletedNames = [];
+
 let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"]
 
 let getAlienName = () => index = Math.floor(Math.random()*alienShipNames.length);
@@ -67,13 +69,15 @@ class Ship {
         if(this.name === "USS Schwarzenegger"){
           alert(`${attacked.name} takes a hit, hull takes ${damage} damage.`)
           alert(`${attacked.name}'s hull shatters!`)
-          alert("The fleet deploys a new ship to attack you!")
-          alienShipNames.splice(index,1); //removing the ship you just destroyed
+          
+          deletedNames.push(alienShipNames.splice(index,1)); //removing the ship you just destroyed
+          console.log("these are the deleted names:",deletedNames)
           //once the length is less thana or equal to 0 stop generating ships
           if(alienShipNames.length <=0){
             alert(`As ${attacked.name}'s hull is set ablaze by your laser, you speed through the wreckage. The alien fleet as been defeat!\nYou're heading home...`)
             gameEnd();
           } else {
+            alert("The fleet deploys a new ship to attack you!")
             alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
             alert(`${alienShip.name} approaches.`)
             turnEnds = false;
@@ -119,22 +123,30 @@ const gameEnd = () =>{
   alert("Thank you for playing!");
   let startAgain = confirm("Play again?");
   if(startAgain === true){
+    alienShipNames = deletedNames;
     gameStart();
+  }else{
+    null;
   }
 }
 
 const gameContinue = () => {
-  while (answer === "a" || quit === null){
+  while (typeof answer === null || typeof answer !== "string" || answer === ""){
+    alert("That is not a valid answer.")
+    answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
+  }
+  while (answer === "a" || quit === null || answer === "attack"){
     ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
     if (turnEnds === true){
       alienShip.attack(ussSchwarzenegger, alienShip);
-    } else if (turnEnds === false ) {
+    } else if (turnEnds === false) {
       answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
     }
   } 
-  if (answer === "r" || answer === undefined || answer === null) {
+  if (answer === "r" || answer === null || typeof answer !== "string" || answer === "retreat") {
      quit = confirm(`Are you sure you want to retreat?`);
     if (quit === true){
+      alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
       gameEnd();
     } else if (quit === null){
       gameContinue();
