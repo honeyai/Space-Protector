@@ -193,7 +193,7 @@ const gameEnd = () =>{
     ussSchwarzenegger.hull = 20;
     gameStart();
   }else if (startAgain === false) {
-    null;
+    break;
   }
 }
 
@@ -218,17 +218,18 @@ const gameContinue = () => {
       ifContinue();
     }
   }
-} 
- if (answer !== "a" || quit !== false || answer !== "attack") {
-  console.log(answer)
-  console.log(typeof answer);
-  while (answer === "r" || answer === null || answer === "retreat") {
-  quit = confirm(`Are you sure you want to retreat?`);
-  if (quit === true){
-    alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
-    gameEnd();
-    } else if (quit === false){
-      gameContinue();
+ 
+  while (answer !== "a" || quit !== false || answer !== "attack") {
+    console.log(answer)
+    console.log(typeof answer);
+    while (answer === "r" || answer === null || answer === "retreat") {
+    quit = confirm(`Are you sure you want to retreat?`);
+    if (quit === true){
+      alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
+      gameEnd();
+      } else if (quit === false){
+        gameContinue();
+      }
     }
   }
 }
