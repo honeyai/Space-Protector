@@ -248,15 +248,16 @@ gameStart();
 
 
 //!=========================================== NOTES ================================================
-//!Current errors: playing again after you win does not start with all of the array it starts with the only remaining item of the array.
+//!Current errors: at mid game there is retreat and play again looping
 
 //*======================================= CURRENT EDITION ==========================================
-//*Committing because the general gist of the game works
+//*Final
 
 
 //TODO After everything works turn if else's into ternarys...maybe
-//TODO Fix play again>> merge the deletedNames with names. fix mid game retreat
 
 //?========================================= Completed =========================================
 //Game start question and getting it to start the ship attack.
+//Fix play again>> merge the deletedNames with names. fix mid game retreat
+
 
