@@ -190,7 +190,7 @@ const gameEnd = () =>{
   console.log("game is ending");
   alert("Thank you for playing!");
   let startAgain = confirm("Play again?");
-  if(startAgain === true){
+  if(startAgain === true && !(ussSchwarzenegger.hull <= 0)){
     console.log("game is restarting");
     alienShipNames = deletedNames;
     console.log("this should be at 6", alienShipNames.length);
@@ -198,7 +198,8 @@ const gameEnd = () =>{
     gameStart();
   }else if (startAgain === false) {
     console.log("game fully ends");
-    return;
+    console.log(startAgain);
+    return answer = "jdf";//fixes the player dies and yet it attacks again
   }
 }
 
@@ -217,7 +218,8 @@ const ifContinue = () =>{
 
 const gameContinue = () => {
   ifContinue();
-  while (answer === "a" || quit === false || answer === "attack"){
+  console.log(answer);
+  while (answer === "a" || quit === false || answer === "attack" ){
     console.log("player is attacking");
     ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
     if (turnEnds === true){
@@ -227,7 +229,7 @@ const gameContinue = () => {
       console.log("alien died, ask for player action");
       ifContinue();
     }
-  if (answer === "r" || answer === null || answer === "retreat") {
+  if (answer === "r" || typeof answer === "object" || answer === "retreat") {
     console.log("player is retreating");
     quit = confirm(`Are you sure you want to retreat?`);
     if (quit === true){
@@ -255,14 +257,11 @@ setTimeout(gameStart, 2000);
 
 
 //!=========================================== NOTES ================================================
-//!Current errors: playing again after you win does not start with all of the array it starts with the only remaining item of the array.
+//!i want the first retreat to ask are you sure
 
 //*======================================= CURRENT EDITION ==========================================
 //*Committing because the general gist of the game works
 
-
-//TODO After everything works turn if else's into ternarys...maybe
-//TODO Fix play again>> merge the deletedNames with names. fix mid game retreat
 
 //?========================================= Completed =========================================
 //Game start question and getting it to start the ship attack.
