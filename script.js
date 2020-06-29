@@ -120,7 +120,7 @@ class Ship {
             gameEnd();
           } else {                                                                        //*======================2A-1b.
             alert("The fleet deploys a new ship to attack you!")
-            alienShip = new Ship(alienShipNames[getAlienName()], randomizer(3,6), randomizer(2,4), randomizer(0.6,0.8)) 
+            alienShip = new Ship(alienShipNames[getAlienName()], randomizer(3,6), randomizer(2,4), randomizer(0.6, 0.8)) 
             // console.log(alienShip)
             alert(`${alienShip.name} approaches.`)
             turnEnds = false;
