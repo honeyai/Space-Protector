@@ -206,7 +206,7 @@ const ifContinue = () =>{
   console.log("asking for continue.");
   answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   let noNumbers = /^[0-9]+$/;
-  while (typeof answer === "object" || answer === "" || noNumbers.test(answer)){
+  while (answer !== "a" && answer !== "attack" && answer !== "r" && answer !== "retreat"){
     console.log("answer was invalid")
     alert("That is not a valid answer.")
     answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
