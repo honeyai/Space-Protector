@@ -207,7 +207,7 @@ const ifContinue = () =>{
     alert("That is not a valid answer.")
     answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   }
-  console.log(answer)
+  // console.log(answer)
   return answer
 }
 
@@ -239,6 +239,7 @@ const gameContinue = () => {
     }
   }
 }
+
 
 
 setTimeout(gameStart, 2000);

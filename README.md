@@ -10,6 +10,8 @@ Fortunately for you the aliens only attack one by one before they send in the ne
 ___
 ### Getting Started
 ___
+Head to: https://honeyai.github.io/Space-Protector/
+
 The player will be asked which choice to make. The player will always attack first. If they attack and don't miss, the alien will take it's damage, if the alien still stands it makes it's attack. The player will take damage if the alien hits. 
 
 Once the current alien ship is downed, the next appears and then the player will be asked if they want to attack or retreat. 
@@ -19,10 +21,11 @@ ___
 ### Built With
 ___
 * Javascript
-* HTML
 ___
 
 ###### Status
 ___
 Functional. In progress.
+###### Credits
+Jessica Sanchez. [@honeyai](https://github.com/honeyai/)
 
