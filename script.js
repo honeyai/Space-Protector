@@ -233,7 +233,9 @@ const gameContinue = () => {
   }
 }
 
-gameStart();
+
+
+setTimeout(gameStart, 2000);
 
 
 
