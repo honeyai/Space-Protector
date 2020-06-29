@@ -15,27 +15,23 @@
 
 //* -------------------------------------------------------------Functions
 //Creates a random number for alien ship's properties that need a range
-  //Returns a 0.n decimal if the range is between 0 and 1
-  //Returns a floored integer if the range is beyond 0 and 1
-  const randomizer = (min, max) => {
-    //if my min and max are less than zero don't floor or ceil just return as is
-    if (min < 1 && max < 1) {
-      return (Math.random() * (max - min) + min).toFixed(1);
-    } else {
-      min = Math.ceil(min);
-      max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+//Returns a 0.n decimal if the range is between 0 and 1
+//Returns a floored integer if the range is beyond 0 and 1
+const randomizer = (min, max) => {
+  //if my min and max are less than zero don't floor or ceil just return as is
+  if (min < 1 && max < 1) {
+    return (Math.random() * (max - min) + min).toFixed(1);
+  } else {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
+}
 
-//* -------------------------------------------------------------Ship Constructor Global Variables
 
-//randomly generated range between 3 and 6
-let alienHull = randomizer(3,6);
-//randomly generated range between 2 n 4
-let alienFP = randomizer(2,4)
-//randomly generated range between .6 n .8
-let alienACC = randomizer(0.6, 0.8)
+
+
+//* -------------------------------------------------------------ShipVariables
 
 //index to hold alien ship names
 let index;
@@ -46,8 +42,6 @@ let turnEnds;
 let damage;
 //variable to hold the difference between the attacked's hull and attacker's firepower
 let remainingHull;
-//array used to restore the items of array alienShipNames at game restart
-let deletedNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
 //used to create unique alien names
 let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
 //randomize the index of array alienShipName
@@ -247,7 +241,7 @@ const gameContinue = () => {
 }
 
 
-gameStart();
+setTimeout(gameStart, 2000);
 
 
 
