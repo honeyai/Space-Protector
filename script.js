@@ -15,23 +15,27 @@
 
 //* -------------------------------------------------------------Functions
 //Creates a random number for alien ship's properties that need a range
-//Returns a 0.n decimal if the range is between 0 and 1
-//Returns a floored integer if the range is beyond 0 and 1
-const randomizer = (min, max) => {
-  //if my min and max are less than zero don't floor or ceil just return as is
-  if (min < 1 && max < 1) {
-    return (Math.random() * (max - min) + min).toFixed(1);
-  } else {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+  //Returns a 0.n decimal if the range is between 0 and 1
+  //Returns a floored integer if the range is beyond 0 and 1
+  const randomizer = (min, max) => {
+    //if my min and max are less than zero don't floor or ceil just return as is
+    if (min < 1 && max < 1) {
+      return (Math.random() * (max - min) + min).toFixed(1);
+    } else {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
   }
-}
 
+//* -------------------------------------------------------------Ship Constructor Global Variables
 
-
-
-//* -------------------------------------------------------------ShipVariables
+//randomly generated range between 3 and 6
+let alienHull = randomizer(3,6);
+//randomly generated range between 2 n 4
+let alienFP = randomizer(2,4)
+//randomly generated range between .6 n .8
+let alienACC = randomizer(0.6, 0.8)
 
 //index to hold alien ship names
 let index;
@@ -42,8 +46,10 @@ let turnEnds;
 let damage;
 //variable to hold the difference between the attacked's hull and attacker's firepower
 let remainingHull;
+//array used to restore the items of array alienShipNames at game restart
+let deletedNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
 //used to create unique alien names
-let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
+let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"]
 //randomize the index of array alienShipName
 let getAlienName = () => index = Math.floor(Math.random()*alienShipNames.length);
 
@@ -174,36 +180,27 @@ let answer;
 let quit;
 
 const gameStart = () => {
-  console.log("game begins")
   alert("You are the USS Schwarzenegger. On your return flight back to Earth, you're met with a barricade of alien ships. \nDefeat them to get home!")
   alert(`${alienShip.name} approaches.`)
   gameContinue();
 }
 
 const gameEnd = () =>{
-  console.log("game is ending")
   alert("Thank you for playing!");
   let startAgain = confirm("Play again?");
-  if (startAgain === true){
-    console.log("game is restarting")
-    // console.log(deletedNames)
-    alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
-    console.log("this should be at 6", alienShipNames.length)
+  if(startAgain === true){
+    alienShipNames = deletedNames;
     ussSchwarzenegger.hull = 20;
     gameStart();
-  }
-  if (startAgain === false) {
-  console.log("game fully ends")
-    return;
+  }else if (startAgain === false) {
+    null
   }
 }
 
 const ifContinue = () =>{
-  console.log("asking for continue.")
   answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   let noNumbers = /^[0-9]+$/;
   while (typeof answer === "object" || answer === "" || noNumbers.test(answer)){
-  console.log("answer was invalid")
     alert("That is not a valid answer.")
     answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   }
@@ -212,30 +209,26 @@ const ifContinue = () =>{
 }
 
 const gameContinue = () => {
-  console.log("game in progress.")
   ifContinue();
-  while (answer === "a" || quit === false || answer === "attack"){  
-    console.log("player is attacking")
+  while (answer === "a" || quit === false || answer === "attack"){
     ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
     if (turnEnds === true){
-      console.log("alien attacks")
       alienShip.attack(ussSchwarzenegger, alienShip);
     } else if (turnEnds === false) {
-      console.log("alien died, ask for player action")
       ifContinue();
     }
-  }
-  if (answer === "r" || answer === null || answer === "retreat") {
-    console.log("player is retreating")
-   quit = confirm(`Are you sure you want to retreat?`);
-    if (quit === true){
-      console.log("player is quitting")
-      alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
-      gameEnd();
-    } 
-    if (quit === false){
-      console.log("player is continuing")
-      gameContinue();
+  if (answer !== "a" || quit !== false || answer !== "attack") {
+    console.log(answer)
+    console.log(typeof answer);
+    if (answer === "r" || answer === null || answer === "retreat") {
+    quit = confirm(`Are you sure you want to retreat?`);
+      if (quit === true){
+        alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
+        gameEnd();
+        } else if (quit === false){
+          gameContinue();
+        }
+      }
     }
   }
 }
