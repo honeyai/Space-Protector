@@ -49,7 +49,7 @@ let remainingHull;
 //array used to restore the items of array alienShipNames at game restart
 let deletedNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
 //used to create unique alien names
-let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"]
+let alienShipNames = ["The Pisdim", "The Lorin", "The Noro", "The Cabilval", "The Talgis", "The Nusti"];
 //randomize the index of array alienShipName
 let getAlienName = () => index = Math.floor(Math.random()*alienShipNames.length);
 
@@ -120,7 +120,7 @@ class Ship {
             gameEnd();
           } else {                                                                        //*======================2A-1b.
             alert("The fleet deploys a new ship to attack you!")
-            alienShip = new Ship(alienShipNames[getAlienName()], randomizer(3,6), randomizer(2,4), randomizer(0.6, 0.8)) 
+            alienShip = new Ship(alienShipNames[getAlienName()], randomizer(3,6), randomizer(2,4), randomizer(0.6,0.8)) 
             // console.log(alienShip)
             alert(`${alienShip.name} approaches.`)
             turnEnds = false;
@@ -180,58 +180,67 @@ let answer;
 let quit;
 
 const gameStart = () => {
-  alert("You are the USS Schwarzenegger. On your return flight back to Earth, you're met with a barricade of alien ships. \nDefeat them to get home!")
-  alert(`${alienShip.name} approaches.`)
+  console.log("game begins");
+  alert("You are the USS Schwarzenegger. On your return flight back to Earth, you're met with a barricade of alien ships. \nDefeat them to get home!");
+  alert(`${alienShip.name} approaches.`);
   gameContinue();
 }
 
 const gameEnd = () =>{
+  console.log("game is ending");
   alert("Thank you for playing!");
   let startAgain = confirm("Play again?");
   if(startAgain === true){
+    console.log("game is restarting");
     alienShipNames = deletedNames;
+    console.log("this should be at 6", alienShipNames.length);
     ussSchwarzenegger.hull = 20;
     gameStart();
   }else if (startAgain === false) {
-    null
+    console.log("game fully ends");
+    return;
   }
 }
 
 const ifContinue = () =>{
+  console.log("asking for continue.");
   answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   let noNumbers = /^[0-9]+$/;
   while (typeof answer === "object" || answer === "" || noNumbers.test(answer)){
+    console.log("answer was invalid")
     alert("That is not a valid answer.")
     answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   }
-  // console.log(answer)
+  console.log(answer);
   return answer
 }
 
 const gameContinue = () => {
   ifContinue();
   while (answer === "a" || quit === false || answer === "attack"){
+    console.log("player is attacking");
     ussSchwarzenegger.attack(alienShip, ussSchwarzenegger);
     if (turnEnds === true){
+      console.log("alien attacks");
       alienShip.attack(ussSchwarzenegger, alienShip);
     } else if (turnEnds === false) {
+      console.log("alien died, ask for player action");
       ifContinue();
     }
-  if (answer !== "a" || quit !== false || answer !== "attack") {
-    console.log(answer)
-    console.log(typeof answer);
-    if (answer === "r" || answer === null || answer === "retreat") {
+  if (answer === "r" || answer === null || answer === "retreat") {
+    console.log("player is retreating");
     quit = confirm(`Are you sure you want to retreat?`);
-      if (quit === true){
-        alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
-        gameEnd();
-        } else if (quit === false){
-          gameContinue();
-        }
+    if (quit === true){
+      alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
+      gameEnd();
+      } else if (quit === false){
+        console.log("player is continuing");
+        gameContinue();
       }
     }
   }
 }
+
 
 
 
