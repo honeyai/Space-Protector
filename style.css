@@ -6,7 +6,21 @@
 }
 
 canvas {
-  background-color: #170c1b;
+  background-color: #0a070f;
+  /* color: #a09f98; */
   height: 100vh;
   width: 100vw;
 }
+
+/* @font-face {
+  font-family: 'Pixel';
+  src: url('/fonts/arcadeclassic/ARCADECLASSIC.TTF') format('truetype');
+} */
+@font-face {
+  font-family: 'Pixel';
+  src: url('/fonts/dotty/dotty.ttf') format('truetype');
+}
+/* @font-face {
+  font-family: 'Pixel';
+  src: url('/fonts/subway-ticker/SUBWT___.ttf') format('truetype');
+} */

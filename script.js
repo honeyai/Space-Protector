@@ -11,7 +11,8 @@
 // 2. Ship Constructor Global Variables
 // 2. Ship object constructor
 // 3. Generating the Ships
-// 4. Beginning the game
+// 4. Drawing the stars
+// 5. Beginning the game
 
 //* -------------------------------------------------------------Functions
 //Creates a random number for alien ship's properties that need a range
@@ -134,7 +135,7 @@ class Ship {
         if(this.name === "USS Schwarzenegger"){                                             //*======================2B-1.
           remainingHull = attacked.hull - damage;
           attacked.hull = remainingHull;
-          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. \nBut it's still standing. You see it's lasers warming up, it fires!`);
+          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. \nBut it's still standingameDraw. You see it's lasers warming up, it fires!`);
           turnEnds = true; 
         } else if (this.name === alienShipNames[index]){                                    //*======================2B-2.
           remainingHull = attacked.hull - damage;
@@ -151,6 +152,145 @@ class Ship {
 const ussSchwarzenegger = new Ship("USS Schwarzenegger", 20, 5, 0.7)
 
 var alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, alienACC) 
+
+//*------------------------------------------------------------------Drawing the Stars
+
+
+//Empty object that maintains the document elements
+let gameDraw = {};
+let dpi = window.devicePixelRatio;
+
+const runOnLoad = () => {
+  //CANVAS
+  gameDraw.display = document.querySelector("#canvas");
+  gameDraw.context = gameDraw.display.getContext("2d");
+
+  //try to fix blurriness
+  gameDraw.dpi = dpi;
+
+  //DRAWING stars
+  gameDraw.stars  = [];
+
+  //drawing the rectangle
+  let x = gameDraw.display.width/2.30,
+      y = gameDraw.display.height/1.5,
+      width = 100,
+      height = 50;
+
+  //When button is Clicked
+  gameDraw.display.addEventListener('click', function(event){
+    console.log(x, y, width, height)
+    console.log(event.x, event.y, event.width, event.height)
+
+    if (
+      event.x > x &&
+      event.x < x + width &&
+      event.y > y &&
+      event.y < y + height
+      
+    ) {
+      console.log('Clicked!')
+    }
+  });
+
+  // STARTS THE DRAW FUNCTION IMMEDIATELY ON LOAD
+  alwaysDraw();
+
+  // trying to reduce creation load
+  popTheStars();
+}
+
+const createStars = (point, width, height, dx, dy) => {
+  if (dx === undefined) {
+    dx = 0;
+  }
+  if (dy === undefined) {
+    dy = 0;
+  }
+  var star = {
+    corner: point,
+    width: width,
+    height: height,
+    dx: dx,
+    dy: dy,
+    move() {
+      this.corner = translatePoint(this.corner, this.dx, this.dy);
+    },
+    starDraw() {
+      gameDraw.context.beginPath();
+      gameDraw.context.rect(this.corner.x, this.corner.y, this.width, this.height);
+      gameDraw.context.strokeStyle = "#E8E4F0";
+      gameDraw.context.stroke();
+    }
+  };
+  return star;
+}
+
+const alwaysDraw = () => {
+  blurryFix();
+  // drawButton();
+  let rndStarNum = (Math.random() * (5.5 - 2.5) + 2.5);
+  let randomSpeed = (Math.random() * (4.5 - 1.5) + 1.5);
+  gameDraw.context.clearRect(0, 0, gameDraw.display.width, gameDraw.display.height);
+  gameDraw.stars.push(createStars(starStart(), 1, rndStarNum, 0, 1 + randomSpeed));
+  // console.log(starStart()) //this is creating a ridiculous amount of 'stars' maybe i can pop the array so that after a certain amount of time they're junked
+
+  for (i in gameDraw.stars) {
+    gameDraw.stars[i].starDraw();
+    gameDraw.stars[i].move();
+  }
+  //========Title of Game=======
+  gameDraw.context.font = "105px Pixel";
+  gameDraw.context.fillStyle = "#a09f98";
+  gameDraw.context.textAlign = "center";
+  gameDraw.context.fillText("RETURN", gameDraw.display.width/2, gameDraw.display.height/2);
+
+  //====Button===
+  let x = gameDraw.display.width/2.30,
+      y = gameDraw.display.height/1.5,
+      width = 100;
+      height = 50;
+  gameDraw.context.fillStyle = 'red';
+  gameDraw.context.fillRect(x, y, width, height);
+
+  //so that it's drawing it in every 20 milliseconds wile the game state is false
+  setTimeout(alwaysDraw, 15);
+}
+
+//trying to junk the stars made
+const popTheStars = () => {
+  for (i in gameDraw.stars) {
+    gameDraw.stars.pop();
+    // setTimeout(popTheStars, 8000)
+  }
+}
+
+//creating a style object that returns the appropriate w & h
+const blurryFix = () => {
+  let style = {
+    height() {
+      //getComputedStyle gives an object of all css properties of element.
+      //getPropertyValue is looking for the property of height and is gunna return it.
+      // console.log(getComputedStyle(canvas).getPropertyValue('height'))
+      return +getComputedStyle(canvas).getPropertyValue('height').slice(0,-2);
+    },
+    width() {
+      return +getComputedStyle(canvas).getPropertyValue('width').slice(0,-2)
+    }
+  }
+  //giving the clear image
+  gameDraw.display.setAttribute('width',style.width() * dpi);
+  gameDraw.display.setAttribute('height', style.height() * dpi);
+}
+
+//makes the corner point of each drawn thing
+const makePoint = (x, y) => obj = {x:x, y:y};
+
+//moves the corner point of each drawn thing
+const translatePoint = (point, dx, dy) => makePoint(point.x + dx, point.y + dy);
+
+//makes them start somewhere randomly at y = 0 and x = random.
+const starStart = () => makePoint(Math.random() * gameDraw.display.width, 0);
 
 //*------------------------------------------------------------------Beginning the game
 
@@ -172,7 +312,7 @@ var alienShip = new Ship(alienShipNames[getAlienName()], alienHull, alienFP, ali
       //Thanks player for playing
       //Will ask if you want to play again
       // yes: repopulate the alienShipNames with the untouched names array and go to gameStart()
-      //! no: do nothing... doesn't really work atm
+      // no: quits program.
 
 //Holds value of prompts
 let answer;
@@ -246,7 +386,8 @@ const gameContinue = () => {
 
 
 
-setTimeout(gameStart, 2000);
+// setTimeout(gameStart, 2000);
+
 
 
 
