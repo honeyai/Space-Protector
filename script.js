@@ -96,38 +96,38 @@ class Ship {
   }
   
   attack(attacked, attacker){
-    alert(`${attacker.name} attacks the ${attacked.name}!`)
+    console.log(`${attacker.name} attacks the ${attacked.name}!`)
 
     //create random number for attack between 0 and 1
     let hitChance = Math.random();   
     (hitChance).toFixed(1);
 
     if(hitChance < this.accuracy){                                                        //*==========================1.
-      alert(`${attacker.name}'s attack misses!`)
+      console.log(`${attacker.name}'s attack misses!`)
       return turnEnds = true;
     } else {                                                                              //*==========================2.
       damage = attacker.firepower;
       //if the damage is more or equal to the hull then alien ship is destroyed and a new one is made.
       if (damage >= attacked.hull){                                                       //*=========================2A.
         if(this.name === "USS Schwarzenegger"){                                           //*=======================2A-1.
-          alert(`${attacked.name} takes a hit, hull takes ${damage} damage.`)
-          alert(`${attacked.name}'s hull shatters!`)
+          console.log(`${attacked.name} takes a hit, hull takes ${damage} damage.`)
+          console.log(`${attacked.name}'s hull shatters!`)
           
           alienShipNames.splice(index,1); //removing the ship you just destroyed
           
           //once the length is less thana or equal to 0 stop generating ships
           if(alienShipNames.length <=0){                                                  //*======================2A-1a.
-            alert(`As ${attacked.name}'s hull is set ablaze, you speed through the wreckage. The alien fleet as been defeat!\nYou're heading home...`)
+            console.log(`As ${attacked.name}'s hull is set ablaze, you speed through the wreckage. The alien fleet as been defeat!\nYou're heading home...`)
             gameEnd();
           } else {                                                                        //*======================2A-1b.
-            alert("The fleet deploys a new ship to attack you!")
+            console.log("The fleet deploys a new ship to attack you!")
             alienShip = new Ship(alienShipNames[getAlienName()], randomizer(3,6), randomizer(2,4), randomizer(0.6,0.8)) 
             // console.log(alienShip)
-            alert(`${alienShip.name} approaches.`)
+            console.log(`${alienShip.name} approaches.`)
             turnEnds = false;
           }
         } else if (this.name === alienShipNames[index]){
-          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. \nThe ship's alarms begin to blare. The ship is going down! ${attacked.name} never makes it home. \nGame over.`)
+          console.log(`${attacked.name} takes a hit, hull takes ${damage} damage. \nThe ship's alarms begin to blare. The ship is going down! ${attacked.name} never makes it home. \nGame over.`)
           gameEnd();
         }
         turnEnds = false;
@@ -135,12 +135,12 @@ class Ship {
         if(this.name === "USS Schwarzenegger"){                                             //*======================2B-1.
           remainingHull = attacked.hull - damage;
           attacked.hull = remainingHull;
-          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. \nBut it's still standingameDraw. You see it's lasers warming up, it fires!`);
+          console.log(`${attacked.name} takes a hit, hull takes ${damage} damage. \nBut it's still standingameDraw. You see it's lasers warming up, it fires!`);
           turnEnds = true; 
         } else if (this.name === alienShipNames[index]){                                    //*======================2B-2.
           remainingHull = attacked.hull - damage;
           attacked.hull = remainingHull;
-          alert(`${attacked.name} takes a hit, hull takes ${damage} damage. \nYou're hull is at ${attacked.hull}`)
+          console.log(`${attacked.name} takes a hit, hull takes ${damage} damage. \nYou're hull is at ${attacked.hull}`)
         }
       }
     }
@@ -321,14 +321,14 @@ let quit;
 
 const gameStart = () => {
   console.log("game begins");
-  alert("You are the USS Schwarzenegger. On your return flight back to Earth, you're met with a barricade of alien ships. \nDefeat them to get home!");
-  alert(`${alienShip.name} approaches.`);
+  console.log("You are the USS Schwarzenegger. On your return flight back to Earth, you're met with a barricade of alien ships. \nDefeat them to get home!");
+  console.log(`${alienShip.name} approaches.`);
   gameContinue();
 }
 
 const gameEnd = () =>{
   console.log("game is ending");
-  alert("Thank you for playing!");
+  console.log("Thank you for playing!");
   let startAgain = confirm("Play again?");
   if(startAgain === true && !(ussSchwarzenegger.hull <= 0)){
     console.log("game is restarting");
@@ -349,7 +349,7 @@ const ifContinue = () =>{
   let noNumbers = /^[0-9]+$/;
   while (answer !== "a" && answer !== "attack" && answer !== "r" && answer !== "retreat"){
     console.log("answer was invalid")
-    alert("That is not a valid answer.")
+    console.log("That is not a valid answer.")
     answer = prompt(`You're hull is at ${ussSchwarzenegger.hull}, and you still see ${alienShipNames.length} ships left. Do you [a]ttack or [r]etreat`);
   }
   console.log(answer);
@@ -373,7 +373,7 @@ const gameContinue = () => {
     console.log("player is retreating");
     quit = confirm(`Are you sure you want to retreat?`);
     if (quit === true){
-      alert("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
+      console.log("The alien fleet looms before you. Accessing the damage done to your hull, you know the USS Schwarzenegger isn't going to make it at this rate.\nBefore the fleet can finish you off, you retreat back into space to find a new way to return back to Earth...")
       gameEnd();
       } else if (quit === false){
         console.log("player is continuing");
